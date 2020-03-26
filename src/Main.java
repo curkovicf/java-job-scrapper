@@ -6,11 +6,14 @@ public class Main {
         List<JobPosting> list = postings.getJobs(new SearchConfig(
                 "",
                 "developer",
-                SearchConfig.Search.ALL
+                SearchConfig.Search.MOJPOSAO_HR
         ));
 
-        for (JobPosting job : list) {
-            System.out.println(job.getEmployer());
-        }
+//        Provinces.getInstance().getProvincesMap().values().forEach(el -> {
+//            System.out.println(el.toString());
+//        });
+//        for (JobPosting job : list) {
+//            System.out.println(job.getEmployer());
+//        }
     }
 }
