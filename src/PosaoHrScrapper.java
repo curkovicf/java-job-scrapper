@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PosaoHrScrapper extends WebScrapper implements Scrapper {
     private final String URL = "https://www.posao.hr/poslovi/izraz/";
+    private final PosaoHrProvinces provinces = new PosaoHrProvinces();
 
 
     public List<JobPosting> scrape(SearchConfig searchConfig) {
@@ -37,8 +38,12 @@ public class PosaoHrScrapper extends WebScrapper implements Scrapper {
     }
 
     private String buildURL(SearchConfig searchConfig) {
-        return this.URL + searchConfig.profession + "/stranica/" + this.currPage;
+        String zupanija = "/zupanija/" + provinces.get(searchConfig.province);
+        return this.URL + searchConfig.profession +
+                (zupanija.equals("/zupanija/") ? "" : zupanija) +
+                "/stranica/" + this.currPage;
     }
+
 
     private void extractData(Elements postingContainer, List<String> data) {
         List<String> tempArr = new ArrayList<>();

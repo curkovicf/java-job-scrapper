@@ -4,16 +4,13 @@ public class Main {
     public static void main(String[] args) {
         JobPostings postings = new JobPostings();
         List<JobPosting> list = postings.getJobs(new SearchConfig(
-                "",
+                5,
                 "developer",
-                SearchConfig.Search.MOJPOSAO_HR
+                SearchConfig.Search.ALL
         ));
 
-//        Provinces.getInstance().getProvincesMap().values().forEach(el -> {
-//            System.out.println(el.toString());
-//        });
-//        for (JobPosting job : list) {
-//            System.out.println(job.getEmployer());
-//        }
+        for (JobPosting job : list) {
+            System.out.println(job.getLocation());
+        }
     }
 }

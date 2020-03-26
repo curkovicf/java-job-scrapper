@@ -1,10 +1,10 @@
 
 public class SearchConfig {
-    public String province;
+    public int province;
     public String profession;
     public Search searchOn;
 
-    public SearchConfig(String province, String profession, Search searchOn) {
+    public SearchConfig(int province, String profession, Search searchOn) {
         this.province = province;
         this.profession = profession;
         this.searchOn = searchOn;

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class MojPosaoScrapper extends WebScrapper implements Scrapper {
     private final String URL = "https://www.moj-posao.net/Pretraga-Poslova/";
+    private final MojPosaoProvinces provinces = new MojPosaoProvinces();
 
     @Override
     public List<JobPosting> scrape(SearchConfig searchConfig) {
@@ -17,17 +18,20 @@ public class MojPosaoScrapper extends WebScrapper implements Scrapper {
 
         try {
             Element current = null;
+            Elements pagination = null;
             do {
 
                 Document doc = Jsoup.connect(this.buildURL(searchConfig)).get();
                 Element searchList = doc.getElementsByClass("searchlist").first();
 
-
                 this.extractData(searchList, data);
 
                 current = doc.getElementsByClass("active").last();
+                pagination = doc.getElementsByClass("pagination");
+
                 this.currPage++;
-            } while (!current.nextElementSibling().hasClass("unavailable"));
+            } while (!current.nextElementSibling().hasClass("unavailable") &&
+                    !pagination.toString().equals(""));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,12 +43,10 @@ public class MojPosaoScrapper extends WebScrapper implements Scrapper {
     }
 
     private String buildURL(SearchConfig searchConfig) {
-//        String areaKey = Provinces.getInstance().getProvincesMap().get(searchConfig.province);
-        System.out.println();
         return this.URL +
                 "?searchWord=" + searchConfig.profession +
                 "&keyword=" + searchConfig.profession +
-//                "&job_title=&job_title_id=&area=" + (areaKey == null ? "" : areaKey) +
+                "&job_title=&job_title_id=&area=" + this.provinces.get(searchConfig.province) +
                 "&category=&page=" + this.currPage;
     }
 
