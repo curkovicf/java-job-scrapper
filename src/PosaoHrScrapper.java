@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PosaoHrScrapper extends WebScrapper {
+public class PosaoHrScrapper extends WebScrapper implements Scrapper {
     private final String URL = "https://www.posao.hr/poslovi/izraz/";
-    private int currPage = 1;
 
-    public List<JobPosting> scrape(String jobDesc) {
+
+    public List<JobPosting> scrape(SearchConfig searchConfig) {
         List<String> data = new ArrayList<>();
 
         try {
             Element current = null;
             do {
-                Document doc = Jsoup.connect(this.URL + jobDesc + "/stranica/" + this.currPage).get();
+                Document doc = Jsoup.connect(this.buildURL(searchConfig)).get();
                 Elements postingContainer = doc.getElementsByClass("search_grid");
 
                 this.extractData(postingContainer, data);
@@ -34,6 +34,10 @@ public class PosaoHrScrapper extends WebScrapper {
         this.currPage = 1;
 
         return this.createJobList(data);
+    }
+
+    private String buildURL(SearchConfig searchConfig) {
+        return this.URL + searchConfig.profession + "/stranica/" + this.currPage;
     }
 
     private void extractData(Elements postingContainer, List<String> data) {

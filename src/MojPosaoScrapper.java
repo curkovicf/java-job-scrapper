@@ -8,27 +8,34 @@ import org.jsoup.select.NodeVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MojPosaoScrapper extends WebScrapper {
+public class MojPosaoScrapper extends WebScrapper implements Scrapper {
     private final String URL = "https://www.moj-posao.net/Pretraga-Poslova/";
-    private int currPage = 1;
 
     @Override
-    public List<JobPosting> scrape(String profession) {
+    public List<JobPosting> scrape(SearchConfig searchConfig) {
         List<String> data = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(this.buildURL(profession)).get();
-            Element searchList = doc.getElementsByClass("searchlist").first();
+            Element current = null;
+            do {
+                Document doc = Jsoup.connect(this.buildURL(searchConfig)).get();
+                Element searchList = doc.getElementsByClass("searchlist").first();
 
-            this.extractData(searchList, data);
+                this.extractData(searchList, data);
+
+                current = doc.getElementsByClass("active").last();
+                this.currPage++;
+            } while (!current.nextElementSibling().hasClass("unavailable"));
 
         } catch (Exception e) {e.printStackTrace();}
+
+        this.currPage = 1;
 
         return this.createJobList(data);
     }
 
-    private String buildURL(String profession) {
-        return this.URL + "?searchWord=" + profession + "&keyword=" + profession + "&job_title=&job_title_id=&area=&category=";
+    private String buildURL(SearchConfig searchConfig) {
+        return this.URL + "?searchWord=" + searchConfig.profession + "&keyword=" + searchConfig.profession + "&job_title=&job_title_id=&area=&category=&page=" + this.currPage;
     }
 
     private void extractData(Element searchlist, List<String> data) {

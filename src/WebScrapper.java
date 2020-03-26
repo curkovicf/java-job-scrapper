@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class WebScrapper {
-    public abstract List<JobPosting> scrape(String jobDesc);
+    protected int currPage = 1;
 
     protected List<JobPosting> createJobList(List<String> data) {
         List<JobPosting> models = new ArrayList<>();
