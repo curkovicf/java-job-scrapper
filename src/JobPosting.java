@@ -1,13 +1,13 @@
-public class PostedJob {
+public class JobPosting {
     private String url;
-    private String description;
+    private String position;
     private String location;
     private String expires;
     private String employer;
 
-    public PostedJob(String url, String description, String location, String expires, String employer) {
+    public JobPosting(String url, String position, String location, String expires, String employer) {
         this.url = url;
-        this.description = description;
+        this.position = position;
         this.location = location;
         this.expires = expires;
         this.employer = employer;
@@ -21,12 +21,12 @@ public class PostedJob {
         this.url = url;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPosition() {
+        return position;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getLocation() {

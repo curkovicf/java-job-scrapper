@@ -13,7 +13,7 @@ public class PosaoHrScrapper extends WebScrapper {
     private final String URL = "https://www.posao.hr/poslovi/izraz/";
     private int currPage = 1;
 
-    public List<PostedJob> scrape(String jobDesc) {
+    public List<JobPosting> scrape(String jobDesc) {
         List<String> data = new ArrayList<>();
 
         try {
@@ -27,50 +27,44 @@ public class PosaoHrScrapper extends WebScrapper {
                 current = doc.getElementsByClass("current").first();
                 this.currPage++;
             } while (current != null && current.hasText());
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return this.constructModel(data);
+        this.currPage = 1;
+
+        return this.createJobList(data);
     }
 
     private void extractData(Elements postingContainer, List<String> data) {
+        List<String> tempArr = new ArrayList<>();
 
         postingContainer.traverse(new NodeVisitor() {
             @Override
             public void head(Node node, int i) {
                 if (node.parent().hasAttr("href")) {
                     data.add(node.parent().attr("href"));
+                    tempArr.add(node.parent().attr("href"));
                 } else if (node.hasAttr("#text") && !node.attr("#text").equals("(HZZ oglas)")) {
                     data.add(node.attr("#text"));
+                    tempArr.add(node.parent().attr("href"));
                 }
             }
 
             @Override
             public void tail(Node node, int i) {
-
             }
         });
     }
 
-    private List<PostedJob> constructModel(List<String> data) {
-        List<PostedJob> models = new ArrayList<>();
-
-        PostedJob job = null;
-        List<String> objHelperList = new ArrayList<>();
-        for (int index = 0; index < data.size(); index++) {
-            objHelperList.add(data.get(index));
-
-            if (index % 5 == 0 && index != 0) {
-                models.add(new PostedJob(
-                        objHelperList.get(0),
-                        objHelperList.get(1),
-                        objHelperList.get(2),
-                        objHelperList.get(3),
-                        objHelperList.get(4)
-                ));
-                objHelperList.clear();
-            }
-        }
-
-        return models;
+    @Override
+    protected JobPosting createJob(List<String> tempList) {
+        return new JobPosting(
+                tempList.get(0),
+                tempList.get(1),
+                tempList.get(2),
+                tempList.get(3),
+                tempList.get(4)
+        );
     }
 }
