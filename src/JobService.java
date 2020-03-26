@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class JobPostings {
+public class JobService {
     private Scrapper posaoHr = new PosaoHrScrapper();
     private Scrapper mojPosaoHr = new MojPosaoScrapper();
 

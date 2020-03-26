@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        JobPostings postings = new JobPostings();
+        JobService postings = new JobService();
         List<JobPosting> list = postings.getJobs(new SearchConfig(
                 5,
                 "developer",
