@@ -1,3 +1,5 @@
+package scrapper;
+
 public class JobPosting {
     private String url;
     private String position;

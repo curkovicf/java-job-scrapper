@@ -1,3 +1,5 @@
+package scrapper;
+
 import java.util.List;
 
 public class JobService {

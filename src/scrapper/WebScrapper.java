@@ -1,7 +1,9 @@
+package scrapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class WebScrapper {
+abstract class WebScrapper {
     protected int currPage = 1;
 
     protected List<JobPosting> createJobList(List<String> data) {

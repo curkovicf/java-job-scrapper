@@ -1,3 +1,5 @@
+package scrapper;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PosaoHrScrapper extends WebScrapper implements Scrapper {
+class PosaoHrScrapper extends WebScrapper implements Scrapper {
     private final String URL = "https://www.posao.hr/poslovi/izraz/";
     private final PosaoHrProvinces provinces = new PosaoHrProvinces();
 

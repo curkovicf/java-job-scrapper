@@ -1,6 +1,8 @@
+package scrapper;
+
 import java.util.HashMap;
 
-public class MojPosaoProvinces extends HashMap<Integer, String> {
+class MojPosaoProvinces extends HashMap<Integer, String> {
 
     public MojPosaoProvinces() {
         super();

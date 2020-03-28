@@ -1,3 +1,4 @@
+package scrapper;
 
 public class SearchConfig {
     public int province;

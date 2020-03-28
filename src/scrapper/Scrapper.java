@@ -1,5 +1,7 @@
+package scrapper;
+
 import java.util.List;
 
-public interface Scrapper {
+interface Scrapper {
     List<JobPosting> scrape(SearchConfig searchConfig);
 }
